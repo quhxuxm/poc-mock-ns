@@ -1,0 +1,42 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.wagerworks.com/rgsXT/soap/v11/"
+	xmlns:xt="http://www.wagerworks.com/rgsXT/soap/v1/"
+	xmlns:xt2="http://www.wagerworks.com/rgsXT/soap/v2/"
+	xmlns:xt3="http://www.wagerworks.com/rgsXT/soap/v3/"
+	xmlns:xt4="http://www.wagerworks.com/rgsXT/soap/v4/"
+	xmlns:xt5="http://www.wagerworks.com/rgsXT/soap/v5/"
+	xmlns:xt6="http://www.wagerworks.com/rgsXT/soap/v6/"
+	xmlns:xt8="http://www.wagerworks.com/rgsXT/soap/v8/"
+	xmlns:xt9="http://www.wagerworks.com/rgsXT/soap/v9/"
+	xmlns:xt11="http://www.wagerworks.com/rgsXT/soap/v11/"
+	attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	>
+	<xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v1/" schemaLocation="xtMessages.xsd" />
+
+	<xsd:complexType name="RGSActionRequest">
+		<xsd:complexContent>
+			<xsd:extension base="xt:RGSActionRequest">
+				<xsd:sequence>
+					<xsd:element name="SourceType" type="xt11:SourceType" minOccurs="0" maxOccurs="1"></xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="RGSActionResponse">
+		<xsd:complexContent>
+			<xsd:extension base="xt:RGSActionResponse">
+				<xsd:sequence>
+					<xsd:element name="SourceType" type="xt11:SourceType" minOccurs="0" maxOccurs="1"></xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="SourceType">
+		<xsd:attribute name="amount" type="xsd:decimal" />
+		<xsd:attribute name="type" type="xsd:string" />
+	</xsd:complexType>
+
+</xsd:schema>

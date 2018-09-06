@@ -1,0 +1,43 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xds="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.wagerworks.com/rgsXT/soap/v13/"
+            xmlns:xt6="http://www.wagerworks.com/rgsXT/soap/v6/"
+            xmlns:xt13="http://www.wagerworks.com/rgsXT/soap/v13/"
+            attributeFormDefault="unqualified" elementFormDefault="qualified">
+
+
+    <xsd:complexType name="FundModeRequest">
+        <xsd:complexContent>
+            <xsd:extension base="xt6:FundModeRequest">
+                <xds:sequence>
+                    <xsd:element name="Freespin" type="xt13:FundModeRequestFreeSpin" minOccurs="0"></xsd:element>
+                    <xsd:element name="Tournament" type="xt13:FundModeRequestTournament" minOccurs="0"></xsd:element>
+                </xds:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+
+    </xsd:complexType>
+
+    <xsd:complexType name="FundModeRequestFreeSpin">
+        <xds:sequence>
+            <xsd:element name="Summary" type="xt13:FundModeRequestFreeSpinSummary" minOccurs="0"></xsd:element>
+        </xds:sequence>
+        <xsd:attribute name="campaignId" type="xsd:string" use="required"/>
+        <xsd:attribute name="externalId" type="xsd:string" use="optional"/>
+        <xsd:attribute name="lines" type="xsd:int" use="optional"/>
+        <xsd:attribute name="betPerLine" type="xsd:decimal" use="optional"/>
+        <xsd:attribute name="finished" type="xsd:string" use="optional"/>
+        <xsd:attribute name="remaining" type="xsd:int" use="optional"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="FundModeRequestFreeSpinSummary">
+        <xsd:attribute name="totalSpins" type="xsd:long"/>
+        <xsd:attribute name="totalWin" type="xsd:decimal"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="FundModeRequestTournament">
+        <xsd:attribute name="tournamentId" type="xsd:string" use="required"/>
+        <xsd:attribute name="externalId" type="xsd:string"/>
+    </xsd:complexType>
+
+
+</xsd:schema>

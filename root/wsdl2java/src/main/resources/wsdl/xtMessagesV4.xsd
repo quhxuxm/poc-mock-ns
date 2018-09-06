@@ -1,0 +1,91 @@
+<xsd:schema	
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+		targetNamespace="http://www.wagerworks.com/rgsXT/soap/v4/"		
+		xmlns:xt="http://www.wagerworks.com/rgsXT/soap/v1/"
+		xmlns:xt2="http://www.wagerworks.com/rgsXT/soap/v2/"
+		xmlns:xt3="http://www.wagerworks.com/rgsXT/soap/v3/"
+		xmlns:xt4="http://www.wagerworks.com/rgsXT/soap/v4/"
+        attributeFormDefault="unqualified" 
+        elementFormDefault="qualified">
+
+	<xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v1/" schemaLocation="xtMessages.xsd" />	
+
+	<!-- play -->
+	<xsd:element name="Play">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseRequest">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:AuthHeaderRequest"></xsd:element>
+						<xsd:element name="Body" type="xt4:BodyRequest"></xsd:element>
+					</xsd:sequence>					
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	    
+	<xsd:element name="PlayResponse">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseResponse">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt4:AuthHeaderResponse"></xsd:element>
+						<xsd:element name="Body" type="xt:PlayBodyResponse"></xsd:element>
+					</xsd:sequence>					
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<!-- Recon -->
+	<xsd:element name="Recon">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseRequest">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:HeaderRequest"></xsd:element>
+						<xsd:element name="Body" type="xt4:BodyRequest"></xsd:element>
+					</xsd:sequence>					
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	
+	<xsd:complexType name="BodyRequest">
+		<xsd:sequence>
+			<xsd:element name="RGSGame" type="xt4:RGSGameRequest"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="RGSGameRequest">
+	    <xsd:complexContent>			
+			<xsd:extension base="xt:RGSGameRequest">				
+				<xsd:attribute name="subGameIND" type="xsd:string" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="AuthHeaderResponse">
+		<xsd:sequence>
+			<xsd:element name="GameDetails" type="xt:GameDetailsResponse"></xsd:element>
+			<xsd:element name="Customer" type="xt:AuthCustomerResponse"></xsd:element>
+			<xsd:element name="Messages" type="xt4:Messages"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+		
+	<xsd:complexType name="Messages">
+		<xsd:sequence>
+			<xsd:element name="Message" type="xt4:Message" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="Message">
+		<xsd:sequence>
+			<xsd:element name="Type" type="xsd:string" minOccurs="1" maxOccurs="1"></xsd:element>
+			<xsd:element name="Action" type="xsd:string" minOccurs="1" maxOccurs="1"></xsd:element>
+			<xsd:element name="Message" type="xsd:string" minOccurs="1" maxOccurs="1"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+</xsd:schema>

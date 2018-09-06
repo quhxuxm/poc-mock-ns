@@ -1,0 +1,50 @@
+<xsd:schema	
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+		targetNamespace="http://www.wagerworks.com/rgsXT/soap/v3/"		
+		xmlns:xt="http://www.wagerworks.com/rgsXT/soap/v1/"
+		xmlns:xt2="http://www.wagerworks.com/rgsXT/soap/v2/"
+		xmlns:xt3="http://www.wagerworks.com/rgsXT/soap/v3/"
+        attributeFormDefault="unqualified" 
+        elementFormDefault="qualified">
+
+	<xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v1/" schemaLocation="xtMessages.xsd" />	
+
+	<!-- EndGameSession -->
+	<xsd:element name="GetPlayerBalance">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseRequest">					
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:AuthHeaderRequest"></xsd:element>						
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="GetPlayerBalanceResponse">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseResponse">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:AuthHeaderResponse"></xsd:element>				
+						<xsd:element name="Body" type="xt3:GetPlayerBalanceBodyResponse"></xsd:element>		
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:complexType name="GetPlayerBalanceBodyResponse">		
+		<xsd:attribute name="status" type="xt3:GetPlayerBalanceResponseStatusEnum"></xsd:attribute>	
+		<xsd:attribute name="msg" type="xsd:string" use="optional"></xsd:attribute>	
+	</xsd:complexType>
+	
+	<xsd:simpleType name="GetPlayerBalanceResponseStatusEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="SUCCESS"/>
+			<xsd:enumeration value="FAILURE"/>			
+		</xsd:restriction>
+	</xsd:simpleType>
+
+</xsd:schema>

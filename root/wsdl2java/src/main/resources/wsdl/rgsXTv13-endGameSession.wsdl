@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xt="http://www.wagerworks.com/rgsXT/soap/v1/"
+                  xmlns:xt5="http://www.wagerworks.com/rgsXT/soap/v5/"
+                  xmlns:xt6="http://www.wagerworks.com/rgsXT/soap/v6/"
+                  xmlns:xt13="http://www.wagerworks.com/rgsXT/soap/v13/"
+                  targetNamespace="http://www.wagerworks.com/rgsXT/soap/v13/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <wsdl:types>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v1/"
+                        schemaLocation="xtMessages.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v2/"
+                        schemaLocation="xtMessagesv2.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v3/"
+                        schemaLocation="xtMessagesV3.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v4/"
+                        schemaLocation="xtMessagesV4.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v5/"
+                        schemaLocation="xtMessagesV5.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v6/"
+                        schemaLocation="xtMessagesV6.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v8/"
+                        schemaLocation="xtMessagesV8.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v9/"
+                        schemaLocation="xtMessagesV9.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v11/"
+                        schemaLocation="xtMessagesV11.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v12/"
+                        schemaLocation="xtMessagesV12.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v13/"
+                        schemaLocation="xtMessagesV13.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="EndGameSessionResponse">
+        <wsdl:part name="EndGameSessionResponse" element="xt6:EndGameSessionResp"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="EndGameSessionRequest">
+        <wsdl:part name="EndGameSessionRequest" element="xt5:EndGameSessionReq"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="XTException">
+        <wsdl:part name="XTException" element="xt:XTException"></wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="RgsXTv13EndGameSession">
+        <wsdl:operation name="EndGameSession">
+            <wsdl:input message="xt13:EndGameSessionRequest"></wsdl:input>
+            <wsdl:output message="xt13:EndGameSessionResponse"></wsdl:output>
+            <wsdl:fault name="EndGameSessionFault" message="xt13:XTException"></wsdl:fault>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="RgsXTSoapBinding" type="xt13:RgsXTv13EndGameSession">
+        <soap:binding style="document"
+                      transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="EndGameSession">
+            <soap:operation
+                    soapAction="http://www.wagerworks.com/rgsXT/soap/v2/EndGameSession"/>
+            <wsdl:input>
+                <soap:body use="literal" parts="EndGameSessionRequest"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts="EndGameSessionResponse"/>
+            </wsdl:output>
+            <wsdl:fault name="EndGameSessionFault">
+                <soap:fault use="literal" name="EndGameSessionFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="RgsXTServiceV13EndGameSession">
+        <wsdl:port name="RgsXTv13EndGameSession" binding="xt13:RgsXTSoapBinding">
+            <soap:address location="http://www.igt.com/RgsXTServiceV13EndGameSession"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

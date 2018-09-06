@@ -1,0 +1,60 @@
+<xsd:schema	
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+		targetNamespace="http://www.wagerworks.com/rgsXT/soap/v2/"		
+		xmlns:xt="http://www.wagerworks.com/rgsXT/soap/v1/"
+		xmlns:xt2="http://www.wagerworks.com/rgsXT/soap/v2/"
+        attributeFormDefault="unqualified" 
+        elementFormDefault="qualified">
+
+	<xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v1/" schemaLocation="xtMessages.xsd" />
+	
+	<xsd:simpleType name="EndGameSessionResponseStatusEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="SUCCESS"/>
+			<xsd:enumeration value="FAILURE"/>			
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="TerminateSessionTypEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="LOGGED_OUT"/>
+			<xsd:enumeration value="TERMINATED"/>						
+		</xsd:restriction>
+	</xsd:simpleType>	
+	
+	<xsd:complexType name="EndGameSessionBodyResponse">		
+		<xsd:attribute name="status" type="xt2:EndGameSessionResponseStatusEnum"></xsd:attribute>
+		<xsd:attribute name="msg" type="xsd:string" use="optional"></xsd:attribute>
+	</xsd:complexType>
+	
+	<!-- Concrete Request-Response -->	
+
+	<!-- EndGameSession -->
+	<xsd:element name="EndGameSessionReq">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseRequest">					
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:HeaderRequest"></xsd:element>
+						<xsd:element name="Status" type="xt2:TerminateSessionTypEnum"></xsd:element>
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="EndGameSessionResp">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseResponse">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:HeaderResponse"></xsd:element>
+						<xsd:element name="Body" type="xt2:EndGameSessionBodyResponse"></xsd:element>
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+
+</xsd:schema>

@@ -1,0 +1,49 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.wagerworks.com/rgsXT/soap/v9/" xmlns:xt="http://www.wagerworks.com/rgsXT/soap/v1/"
+	xmlns:xt2="http://www.wagerworks.com/rgsXT/soap/v2/" xmlns:xt3="http://www.wagerworks.com/rgsXT/soap/v3/"
+	xmlns:xt4="http://www.wagerworks.com/rgsXT/soap/v4/" xmlns:xt5="http://www.wagerworks.com/rgsXT/soap/v5/"
+	xmlns:xt6="http://www.wagerworks.com/rgsXT/soap/v6/" xmlns:xt8="http://www.wagerworks.com/rgsXT/soap/v8/"
+	xmlns:xt9="http://www.wagerworks.com/rgsXT/soap/v9/"
+	attributeFormDefault="unqualified" elementFormDefault="qualified">
+	<xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v1/" schemaLocation="xtMessages.xsd" />
+	<xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v4/" schemaLocation="xtMessagesV4.xsd" />
+
+	<xsd:element name="Play">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseRequest">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:AuthHeaderRequest"></xsd:element>
+						<xsd:element name="Body" type="xt9:BodyRequest"></xsd:element>
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="Recon">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseRequest">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:HeaderRequest"></xsd:element>
+						<xsd:element name="Body" type="xt9:BodyRequest"></xsd:element>
+					</xsd:sequence>					
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="BodyRequest">
+		<xsd:sequence>
+			<xsd:element name="RGSGame" type="xt9:RGSGameRequest"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="RGSGameRequest">
+	    <xsd:complexContent>
+			<xsd:extension base="xt4:RGSGameRequest">
+				<xsd:attribute name="hasJackpot" type="xsd:boolean" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+</xsd:schema>

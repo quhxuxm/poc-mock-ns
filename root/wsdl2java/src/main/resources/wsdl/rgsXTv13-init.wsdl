@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xt="http://www.wagerworks.com/rgsXT/soap/v1/"
+                  xmlns:xt6="http://www.wagerworks.com/rgsXT/soap/v6/"
+                  xmlns:xt13="http://www.wagerworks.com/rgsXT/soap/v13/"
+                  targetNamespace="http://www.wagerworks.com/rgsXT/soap/v13/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <wsdl:types>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v1/"
+                        schemaLocation="xtMessages.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v2/"
+                        schemaLocation="xtMessagesv2.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v3/"
+                        schemaLocation="xtMessagesV3.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v4/"
+                        schemaLocation="xtMessagesV4.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v5/"
+                        schemaLocation="xtMessagesV5.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v6/"
+                        schemaLocation="xtMessagesV6.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v8/"
+                        schemaLocation="xtMessagesV8.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v9/"
+                        schemaLocation="xtMessagesV9.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v11/"
+                        schemaLocation="xtMessagesV11.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v12/"
+                        schemaLocation="xtMessagesV12.xsd"/>
+        </xsd:schema>
+        <xsd:schema attributeFormDefault="unqualified"
+                    elementFormDefault="qualified">
+            <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v13/"
+                        schemaLocation="xtMessagesV13.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="InitResponse">
+        <wsdl:part name="InitResponse" element="xt6:InitResponse" ></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="InitRequest">
+        <wsdl:part name="InitRequest" element="xt:Init"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="XTException">
+        <wsdl:part name="XTException" element="xt:XTException"></wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="RgsXTv13Init">
+        <wsdl:operation name="Init">
+            <wsdl:input message="xt13:InitRequest"></wsdl:input>
+            <wsdl:output message="xt13:InitResponse"></wsdl:output>
+            <wsdl:fault name="InitFault" message="xt13:XTException"></wsdl:fault>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="RgsXTSoapBinding" type="xt13:RgsXTv13Init">
+        <soap:binding style="document"
+                      transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="Init">
+            <soap:operation
+                    soapAction="http://www.wagerworks.com/rgsXT/soap/v1/Init"/>
+            <wsdl:input>
+                <soap:body use="literal" parts="InitRequest"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" parts="InitResponse"/>
+            </wsdl:output>
+            <wsdl:fault name="InitFault">
+                <soap:fault use="literal" name="InitFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="RgsXTServiceV13Init">
+        <wsdl:port name="RgsXTv13Init" binding="xt13:RgsXTSoapBinding">
+            <soap:address location="http://www.igt.com/RgsXTServiceV13Init"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,367 @@
+<xsd:schema	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+		targetNamespace="http://www.wagerworks.com/rgsXT/soap/v1/"		
+		xmlns:xt="http://www.wagerworks.com/rgsXT/soap/v1/"
+		xmlns="http://www.wagerworks.com/rgsXT/soap/v1/">
+								
+	<!--  Base Request -->
+	<xsd:complexType name="BaseRequest">
+	</xsd:complexType>
+
+	<xsd:complexType name="AuthHeaderRequest">
+		<xsd:sequence>
+			<xsd:element name="GameDetails" type="xt:GameDetailsRequest"></xsd:element>
+			<xsd:element name="Customer" type="xt:AuthCustomerRequest"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="GameDetailsRequest">
+		<xsd:attribute name="gameId" type="xsd:string"/>
+		<xsd:attribute name="name" type="xsd:string"/>
+		<xsd:attribute name="class" type="xsd:string" use="optional"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="AuthCustomerRequest">
+		<xsd:complexContent>
+			<xsd:extension base="CustomerRequest">
+				<xsd:attribute name="secureToken" type="xsd:string" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="BodyRequest">
+		<xsd:sequence>
+			<xsd:element name="RGSGame" type="xt:RGSGameRequest"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="RGSGameRequest">
+		<xsd:sequence>
+			<xsd:element name="RGSAction" type="xt:RGSActionRequest" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="finished" type="xsd:boolean" />
+		<xsd:attribute name="txnId" type="xsd:long" />
+		<xsd:attribute name="version" type="xsd:string" use="optional"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="RGSActionRequest">
+		<xsd:attribute name="action" type="xt:ActionEnum"/>						
+		<xsd:attribute name="amount" type="xsd:decimal"/>
+		<xsd:attribute name="actionId" type="xsd:string"/>
+		<xsd:attribute name="force" type="xsd:boolean" use="optional"/>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="ActionEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="STAKE"/>
+			<xsd:enumeration value="WIN"/>
+			<xsd:enumeration value="REFUND"/>						
+		</xsd:restriction>
+	</xsd:simpleType>	
+	
+	<xsd:complexType name="VoidBodyRequest">
+		<xsd:complexContent>
+			<xsd:extension base="xt:BodyRequest">
+				<xsd:attribute name="reason" type="xsd:string"></xsd:attribute>
+				<xsd:attribute name="ref" type="xsd:string"></xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="HeaderRequest">	
+		<xsd:sequence>	
+			<xsd:element name="GameDetails" type="xt:GameDetailsRequest"></xsd:element>
+			<xsd:element name="Customer" type="xt:CustomerRequest"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="CustomerRequest">			
+		<xsd:attribute name="userId" type="xsd:string" />
+		<xsd:attribute name="skinCode" type="xsd:string" />
+		<xsd:attribute name="ccyCode" type="xsd:string" use="optional"/>
+		<xsd:attribute name="sessionId" type="xsd:string" use="optional"/>
+		<xsd:attribute name="countryCode" type="xsd:string" use="optional"/>
+		<xsd:attribute name="language" type="xsd:string" use="optional"/>
+		<xsd:attribute name="affiliate" type="xsd:string" use="optional"/>		
+	</xsd:complexType>
+	
+
+	<!-- Base Response -->
+	<xsd:complexType name="BaseResponse">		
+	</xsd:complexType>			
+
+	<xsd:complexType name="AuthHeaderResponse">
+		<xsd:sequence>
+			<xsd:element name="GameDetails" type="xt:GameDetailsResponse"></xsd:element>
+			<xsd:element name="Customer" type="xt:AuthCustomerResponse"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="AuthCustomerResponse">			
+		<xsd:complexContent>			
+			<xsd:extension base="CustomerResponse">				
+				<xsd:attribute name="secureToken" type="xsd:string" use="optional"/>				
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>			
+
+	<xsd:complexType name="GameDetailsResponse">
+		<xsd:attribute name="gameId" type="xsd:string" use="optional"/>
+		<xsd:attribute name="name" type="xsd:string"/>				
+	</xsd:complexType>
+
+	<xsd:complexType name="FundType">
+		<xsd:attribute name="amount" type="xsd:decimal" />
+		<xsd:attribute name="type" type="xsd:string" />
+	</xsd:complexType>			
+
+	<xsd:complexType name="BodyResponse">
+		<xsd:sequence>
+			<xsd:element name="RGSGame" type="xt:RGSGameResponse"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="RGSGameResponse">
+		<xsd:sequence>
+			<xsd:element name="RGSAction" type="xt:RGSActionResponse" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="finished" type="xsd:boolean" />
+		<xsd:attribute name="txnId" type="xsd:long" />
+	</xsd:complexType>			
+
+	<xsd:complexType name="RGSActionResponse">
+		<xsd:sequence>
+			<xsd:element name="FundType" type="xt:FundType" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="action" type="xt:ActionEnum" />
+		<xsd:attribute name="amount" type="xsd:decimal" />
+		<xsd:attribute name="actionId" type="xsd:string" />
+		<xsd:attribute name="actionRef" type="xsd:string"  use="optional"/>		
+	</xsd:complexType>
+	
+	<xsd:simpleType name="OperatorActionEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="COMPLETE"/>
+			<xsd:enumeration value="CANCEL"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="InitResponseStatusEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="SUCCESS"/>
+			<xsd:enumeration value="FAILURE"/>			
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="PlayResponseStatusEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="REJECTED"/>
+			<xsd:enumeration value="SETTLED"/>
+			<xsd:enumeration value="FAILURE"/>
+			<xsd:enumeration value="INSUFFICIENT_FUNDS"/>
+			<xsd:enumeration value="SESSION_EXPIRED"/>
+		</xsd:restriction>
+	</xsd:simpleType>	
+	
+	<xsd:simpleType name="VoidResponseStatusEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="SETTLED"/>
+			<xsd:enumeration value="FAILURE"/>
+			<xsd:enumeration value="REJECTED"/>
+		</xsd:restriction>
+	</xsd:simpleType>	
+	
+	<xsd:simpleType name="ReconResponseStatusEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="FAILURE"/>
+			<xsd:enumeration value="SETTLED"/>
+			<xsd:enumeration value="NOT_FOUND"/>
+			<xsd:enumeration value="INSUFFICIENT_FUNDS"/>
+		</xsd:restriction>
+	</xsd:simpleType>	
+
+	<xsd:element name="XTException">
+		<xsd:complexType>				
+			<xsd:sequence>
+				<xsd:element minOccurs="1" name="Code" nillable="false" type="xsd:int"/>
+				<xsd:element minOccurs="1" name="Message" nillable="true" type="xsd:string"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>	
+	
+	<xsd:complexType name="InitBodyResponse">		
+		<xsd:attribute name="status" type="xt:InitResponseStatusEnum"></xsd:attribute>
+		<xsd:attribute name="msg" type="xsd:string" use="optional"></xsd:attribute>
+	</xsd:complexType>
+	
+	<xsd:complexType name="PlayBodyResponse">
+		<xsd:complexContent>
+			<xsd:extension base="xt:BodyResponse">
+				<xsd:attribute name="id" type="xsd:string"></xsd:attribute>
+				<xsd:attribute name="msg" type="xsd:string" use="optional"></xsd:attribute>
+				<xsd:attribute name="status" type="xt:PlayResponseStatusEnum"></xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="VoidBodyResponse">
+		<xsd:complexContent>
+			<xsd:extension base="xt:BodyResponse">
+				<xsd:attribute name="id" type="xsd:string"></xsd:attribute>
+				<xsd:attribute name="msg" type="xsd:string" use="optional"></xsd:attribute>
+				<xsd:attribute name="status" type="xt:VoidResponseStatusEnum"></xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ReconBodyResponse">
+		<xsd:complexContent>
+			<xsd:extension base="xt:BodyResponse">
+				<xsd:attribute name="action" type="xt:OperatorActionEnum" />					
+				<xsd:attribute name="id" type="xsd:string"></xsd:attribute>
+				<xsd:attribute name="msg" type="xsd:string" use="optional"></xsd:attribute>
+				<xsd:attribute name="status" type="xt:ReconResponseStatusEnum"></xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="HeaderResponse">
+		<xsd:sequence>
+			<xsd:element name="GameDetails" type="xt:GameDetailsResponse"></xsd:element>
+			<xsd:element name="Customer" type="xt:CustomerResponse"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="CustomerResponse">			
+		<xsd:sequence>
+			<xsd:element name="balance" type="xt:FundType" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+		</xsd:sequence>		
+		<xsd:attribute name="userId" type="xsd:string" />
+		<xsd:attribute name="ccyCode" type="xsd:string"/>
+	</xsd:complexType>
+			
+	<!-- Concrete Request-Response -->	
+	<!-- Init -->
+	<xsd:element name="Init">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseRequest">					
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:AuthHeaderRequest"></xsd:element>
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="InitResponse">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseResponse">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:AuthHeaderResponse"></xsd:element>
+						<xsd:element name="Body" type="xt:InitBodyResponse"></xsd:element>
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+
+
+	<!-- Play -->			
+	<xsd:element name="Play">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseRequest">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:AuthHeaderRequest"></xsd:element>
+						<xsd:element name="Body" type="xt:BodyRequest"></xsd:element>
+					</xsd:sequence>					
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	    
+	<xsd:element name="PlayResponse">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseResponse">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:AuthHeaderResponse"></xsd:element>
+						<xsd:element name="Body" type="xt:PlayBodyResponse"></xsd:element>
+					</xsd:sequence>					
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	    
+	    
+	<!-- Recon -->
+	<xsd:element name="Recon">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseRequest">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:HeaderRequest"></xsd:element>
+						<xsd:element name="Body" type="xt:BodyRequest"></xsd:element>
+					</xsd:sequence>					
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	    
+	<xsd:element name="ReconResponse">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseResponse">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:HeaderResponse"></xsd:element>
+						<xsd:element name="Body" type="xt:ReconBodyResponse"></xsd:element>
+					</xsd:sequence>					
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	    
+	    
+	<!-- Void -->
+	<xsd:element name="Void">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseRequest">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:HeaderRequest"></xsd:element>
+						<xsd:element name="Body" type="xt:VoidBodyRequest"></xsd:element>
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="VoidResponse">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseResponse">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:HeaderResponse"></xsd:element>
+						<xsd:element name="Body" type="xt:VoidBodyResponse"></xsd:element>
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>    
+	    
+	<!-- heartbeat -->
+	<xsd:element name="HeartBeat">
+		<xsd:complexType>
+			<xsd:attribute name="timestamp" type="xsd:dateTime"/>
+		</xsd:complexType>
+	</xsd:element>    
+	
+	<xsd:element name="HeartBeatResponse">
+		<xsd:complexType>
+			<xsd:attribute name="timestamp" type="xsd:dateTime"/>						
+		</xsd:complexType>
+	</xsd:element>	
+
+</xsd:schema>

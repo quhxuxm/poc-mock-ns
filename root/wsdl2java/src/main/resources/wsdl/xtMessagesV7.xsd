@@ -1,0 +1,222 @@
+<xsd:schema
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.wagerworks.com/rgsXT/soap/v7/"
+        xmlns:xt="http://www.wagerworks.com/rgsXT/soap/v1/"
+        xmlns:xt2="http://www.wagerworks.com/rgsXT/soap/v2/"
+        xmlns:xt3="http://www.wagerworks.com/rgsXT/soap/v3/"
+        xmlns:xt4="http://www.wagerworks.com/rgsXT/soap/v4/"
+        xmlns:xt5="http://www.wagerworks.com/rgsXT/soap/v5/"
+        xmlns:xt6="http://www.wagerworks.com/rgsXT/soap/v6/"
+        xmlns:xt7="http://www.wagerworks.com/rgsXT/soap/v7/"
+        attributeFormDefault="unqualified" 
+        elementFormDefault="qualified">
+
+    <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v1/" schemaLocation="xtMessages.xsd" />
+    <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v4/" schemaLocation="xtMessagesV4.xsd" />
+    <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v6/" schemaLocation="xtMessagesV6.xsd" />
+
+    <!-- Request -->
+    <xsd:element name="NotifyGameInProgressRequest">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="xt:BaseRequest">
+                    <xsd:sequence>
+                        <xsd:element name="Header" type="xt6:AuthHeaderRequest"></xsd:element>
+                        <xsd:element name="Body"   type="xt7:NotifyGameInProgressRequestBody"></xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:complexType name="NotifyGameInProgressRequestBody">
+        <xsd:sequence>
+            <xsd:element name="Notification" type="xt7:Notification" minOccurs="1" maxOccurs="unbounded"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="Notification">
+        <!-- use UNFINISHED_GAME_PENDING only -->
+        <xsd:attribute name="type"          type="xt7:NotificationTypeEnum"></xsd:attribute>
+        <xsd:attribute name="txnId"         type="xsd:long"></xsd:attribute>
+        <xsd:attribute name="txnStartTime"  type="xsd:long"></xsd:attribute>
+        <xsd:attribute name="wagerAmount"   type="xsd:decimal"></xsd:attribute>
+    </xsd:complexType>
+    
+    <xsd:simpleType name="NotificationTypeEnum">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="UNFINISHED_GAME_PENDING"/>
+
+            <xsd:enumeration value="AUTO_REVEAL_NOT_A_WINNER"/>
+            <xsd:enumeration value="AUTO_REVEAL_GAME_WIN_LOW_TIER"/>
+            <xsd:enumeration value="AUTO_REVEAL_GAME_WIN_HIGH_TIER"/>
+            
+            <xsd:enumeration value="WAGER_RECONCILIATION_WAGER_NOT_LOGGED"/>
+            <xsd:enumeration value="WAGER_RECONCILIATION_GAME_WIN"/>
+            <xsd:enumeration value="WAGER_RECONCILIATION_GAME_WIN_CLAIM"/>
+            <xsd:enumeration value="WAGER_RECONCILIATION_GAME_NON_WIN"/>
+            
+            <xsd:enumeration value="GAME_NON_WIN"/>
+            <xsd:enumeration value="GAME_WIN_LOW_TIER"/>
+            <xsd:enumeration value="GAME_WIN_HIGH_TIER"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!-- Response -->
+    <xsd:element name="NotifyGameInProgressResponse">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="xt:BaseResponse">
+                    <xsd:sequence>
+                        <xsd:element name="Header" type="xt4:AuthHeaderResponse"></xsd:element>
+                        <xsd:element name="Body"   type="xt7:NotifyGameInProgressResponseBody"></xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:complexType name="NotifyGameInProgressResponseBody">
+        <xsd:sequence>
+            <xsd:element name="status"  type="xt7:NotifyGameInProgressResponseStatusEnum"></xsd:element>
+            <xsd:element name="message" type="xsd:string"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:simpleType name="NotifyGameInProgressResponseStatusEnum">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="SUCCESS"/>
+            <xsd:enumeration value="FAILURE"/>
+            <xsd:enumeration value="NOT_FOUND"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="CAPStatusEnum">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="PENDING"/>
+            <xsd:enumeration value="NON_PENDING"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!-- RGSGame request and response -->
+    <xsd:complexType name="RGSGameRequest">
+        <xsd:complexContent>            
+            <xsd:extension base="xt4:RGSGameRequest">
+                <xsd:attribute name="gridId"            type="xsd:int" />
+                <xsd:attribute name="division"          type="xsd:int" />
+                <xsd:attribute name="revealId"          type="xsd:long" />
+                <xsd:attribute name="revealVersionId"   type="xsd:long" />
+                <xsd:attribute name="refExternalId"     type="xsd:string" />
+                <xsd:attribute name="txnStartTime"      type="xsd:long" />
+                <xsd:attribute name="notificationType"  type="xt7:NotificationTypeEnum" />
+                <xsd:attribute name="totalStake"  type="xsd:decimal" />
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="RGSGameResponse">
+        <xsd:complexContent>            
+            <xsd:extension base="xt:RGSGameResponse">
+                <xsd:attribute name="gridId"            type="xsd:int" />
+                <xsd:attribute name="division"          type="xsd:int" />
+                <xsd:attribute name="revealId"          type="xsd:long" />
+                <xsd:attribute name="revealVersionId"   type="xsd:long" />
+                <xsd:attribute name="refExternalId"     type="xsd:string" />
+                <xsd:attribute name="txnStartTime"      type="xsd:long" />
+                <xsd:attribute name="capStatus"         type="xt7:CAPStatusEnum" />
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+    <!-- NOTE: xt7:AuthCustomerRequest only used in java code, like xt6:AuthHeaderRequest -->
+    <xsd:complexType name="AuthCustomerRequest">
+        <xsd:complexContent>
+            <xsd:extension base="xt:AuthCustomerRequest">
+                <xsd:attribute name="skinName"      type="xsd:string"></xsd:attribute>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="CustomerRequest">
+        <xsd:complexContent>
+            <xsd:extension base="xt:CustomerRequest">
+                <xsd:attribute name="skinName"      type="xsd:string"></xsd:attribute>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+    
+    <xsd:simpleType name="PlayResponseStatusEnum">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="REJECTED"/>
+            <xsd:enumeration value="SETTLED"/>
+            <xsd:enumeration value="FAILURE"/>
+            <xsd:enumeration value="INSUFFICIENT_FUNDS"/>
+            <xsd:enumeration value="SESSION_EXPIRED"/>
+            <xsd:enumeration value="FREESPIN_NO_REMAINING"/>
+            <xsd:enumeration value="FREESPIN_TOKEN_EXPIRED"/>
+            <xsd:enumeration value="FREESPIN_INVALID_CFG"/>
+            <!-- PAM hard error, but RGS will complete the transaction and mark it as CAP pending -->
+            <xsd:enumeration value="ERROR_WITH_CAP_PENDING"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="PlayBodyResponse">
+        <xsd:complexContent>
+            <xsd:extension base="xt:BodyResponse">
+                <xsd:attribute name="id"     type="xsd:string" />
+                <xsd:attribute name="msg"    type="xsd:string" use="optional" />
+                <xsd:attribute name="status" type="xt7:PlayResponseStatusEnum" />
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:element name="PlayResponse">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="xt:BaseResponse">
+                    <xsd:sequence>
+                        <xsd:element name="Header" type="xt4:AuthHeaderResponse" />
+                        <xsd:element name="Body"   type="xt7:PlayBodyResponse" />
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:simpleType name="ReconResponseStatusEnum">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="FAILURE" />
+            <xsd:enumeration value="SETTLED" />
+            <xsd:enumeration value="NOT_FOUND" />
+            <xsd:enumeration value="INSUFFICIENT_FUNDS" />
+            <xsd:enumeration value="FREESPIN_NO_REMAINING" />
+            <xsd:enumeration value="FREESPIN_TOKEN_EXPIRED" />
+            <xsd:enumeration value="FREESPIN_INVALID_CFG" />
+            <!-- PAM hard error, but RGS will complete the transaction and mark it as CAP pending -->
+            <xsd:enumeration value="ERROR_WITH_CAP_PENDING"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="ReconBodyResponse">
+        <xsd:complexContent>
+            <xsd:extension base="xt:BodyResponse">
+                <xsd:attribute name="action"    type="xt:OperatorActionEnum" />
+                <xsd:attribute name="id"        type="xsd:string" />
+                <xsd:attribute name="msg"       type="xsd:string" use="optional" />
+                <xsd:attribute name="status"    type="xt7:ReconResponseStatusEnum" />
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:element name="ReconResponse">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="xt:BaseResponse">
+                    <xsd:sequence>
+                        <xsd:element name="Header"  type="xt:HeaderResponse" />
+                        <xsd:element name="Body"    type="xt7:ReconBodyResponse" />
+                    </xsd:sequence>                 
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

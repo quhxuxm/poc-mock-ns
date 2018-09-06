@@ -1,0 +1,136 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.wagerworks.com/rgsXT/soap/v8/" xmlns:xt="http://www.wagerworks.com/rgsXT/soap/v1/"
+    xmlns:xt2="http://www.wagerworks.com/rgsXT/soap/v2/" xmlns:xt3="http://www.wagerworks.com/rgsXT/soap/v3/"
+    xmlns:xt4="http://www.wagerworks.com/rgsXT/soap/v4/" xmlns:xt5="http://www.wagerworks.com/rgsXT/soap/v5/"
+    xmlns:xt6="http://www.wagerworks.com/rgsXT/soap/v6/" xmlns:xt8="http://www.wagerworks.com/rgsXT/soap/v8/"
+    attributeFormDefault="unqualified" elementFormDefault="qualified">
+    <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v1/"
+        schemaLocation="xtMessages.xsd" />
+    <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v4/"
+        schemaLocation="xtMessagesV4.xsd" />
+    <xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v6/"
+        schemaLocation="xtMessagesV6.xsd" />
+    <xsd:element name="PlayResponse">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="xt:BaseResponse">
+                    <xsd:sequence>
+                        <xsd:element name="Header"
+                            type="xt8:AuthHeaderResponse"></xsd:element>
+                        <xsd:element name="Body"
+                            type="xt6:PlayBodyResponse"></xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Notify">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="xt:BaseRequest">
+                    <xsd:sequence>
+                        <xsd:element name="Header"
+                            type="xt6:AuthHeaderRequest"></xsd:element>
+                        <xsd:element name="Body"
+                            type="xt8:NotifyBodyRequest"></xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:complexType name="NotifyBodyRequest">
+        <xsd:sequence>
+            <xsd:element name="RealityCheck" type="xt8:RealityCheckContent"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="RealityCheckContent">
+        <xsd:sequence>
+            <xsd:element name="action" type="xt8:RealityCheckType"
+                minOccurs="1" maxOccurs="1"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="RealityCheckType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="CONTINUE" />
+            <xsd:enumeration value="CLOSE" />
+            <xsd:enumeration value="VIEW_ACCOUNT_HISTORY" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="NotifyResponse">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="xt:BaseResponse">
+                    <xsd:sequence>
+                        <xsd:element name="Header"
+                            type="xt4:AuthHeaderResponse"></xsd:element>
+                        <xsd:element name="Body"
+                            type="xt8:NotifyBodyResponse"></xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:complexType name="NotifyBodyResponse">
+        <xsd:complexContent>
+            <xsd:extension base="xt:BodyResponse">
+                <xsd:attribute name="status"
+                    type="xt8:NotifyResponseStatus"></xsd:attribute>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:simpleType name="NotifyResponseStatus">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="SUCCESS" />
+            <xsd:enumeration value="FAILURE" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="AuthHeaderResponse">
+        <xsd:sequence>
+            <xsd:element name="GameDetails" type="xt:GameDetailsResponse"></xsd:element>
+            <xsd:element name="Customer" type="xt:AuthCustomerResponse"></xsd:element>
+            <xsd:element name="Messages" type="xt8:Messages"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Messages">
+        <xsd:sequence>
+            <xsd:element name="Message" type="xt8:Message"
+                minOccurs="0" maxOccurs="unbounded"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Message">
+        <xsd:sequence>
+            <xsd:element name="Type" type="xsd:string"
+                minOccurs="1" maxOccurs="1"></xsd:element>
+            <xsd:element name="Message" type="xsd:string"
+                minOccurs="1" maxOccurs="1"></xsd:element>
+            <xsd:element name="MessageActions" type="xt8:MessageActions"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="MessageActions">
+        <xsd:sequence>
+            <xsd:element name="MessageAction" type="xt8:MessageAction"
+                minOccurs="1" maxOccurs="unbounded"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="MessageAction">
+        <xsd:sequence>
+            <xsd:element name="Name" type="xsd:string"
+                minOccurs="1" maxOccurs="1"></xsd:element>
+            <xsd:element name="ActionParameters" type="xt8:ActionParameters"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ActionParameters">
+        <xsd:sequence>
+            <xsd:element name="ActionParameter" type="xt8:ActionParameter"
+                minOccurs="0" maxOccurs="unbounded"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ActionParameter">
+        <xsd:sequence>
+            <xsd:element name="Name" type="xsd:string"
+                minOccurs="1" maxOccurs="1"></xsd:element>
+            <xsd:element name="Value" type="xsd:string"
+                minOccurs="1" maxOccurs="1"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,241 @@
+<xsd:schema	
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+		targetNamespace="http://www.wagerworks.com/rgsXT/soap/v6/"		
+		xmlns:xt="http://www.wagerworks.com/rgsXT/soap/v1/"
+		xmlns:xt2="http://www.wagerworks.com/rgsXT/soap/v2/"
+		xmlns:xt3="http://www.wagerworks.com/rgsXT/soap/v3/"
+		xmlns:xt4="http://www.wagerworks.com/rgsXT/soap/v4/"
+		xmlns:xt5="http://www.wagerworks.com/rgsXT/soap/v5/"
+		xmlns:xt6="http://www.wagerworks.com/rgsXT/soap/v6/"
+        attributeFormDefault="unqualified" 
+        elementFormDefault="qualified">
+
+	<xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v1/" schemaLocation="xtMessages.xsd" />		
+	<xsd:import namespace="http://www.wagerworks.com/rgsXT/soap/v4/" schemaLocation="xtMessagesV4.xsd" />			
+	
+	<xsd:complexType name="AuthHeaderRequest">
+		<xsd:complexContent>
+			<xsd:extension base="xt:AuthHeaderRequest">					
+				<xsd:sequence>
+					<xsd:element name="FundMode" type="xt6:FundModeRequest" minOccurs="0" maxOccurs="1"></xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="HeaderRequest">	
+		<xsd:complexContent>
+			<xsd:extension base="xt:HeaderRequest">					
+				<xsd:sequence>
+					<xsd:element name="FundMode" type="xt6:FundModeRequest" minOccurs="0" maxOccurs="1"></xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="FundModeRequest">
+		<xsd:attribute name="type" type="xsd:string"/>
+		<xsd:attribute name="id" type="xsd:string"/>
+		<xsd:attribute name="num_lines" type="xsd:int"/>
+		<xsd:attribute name="stake_per_line" type="xsd:decimal"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="FundType">
+		<xsd:complexContent>	
+			<xsd:extension base="xt:FundType">
+				<xsd:attribute name="count" type="xsd:int" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>	
+	
+	<xsd:element name="InitResponse">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseResponse">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:AuthHeaderResponse"></xsd:element>
+						<xsd:element name="Body" type="xt6:InitBodyResponse"></xsd:element>
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:complexType name="InitBodyResponse">		
+		<xsd:attribute name="status" type="xt6:InitResponseStatusEnum"></xsd:attribute>
+		<xsd:attribute name="msg" type="xsd:string" use="optional"></xsd:attribute>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="InitResponseStatusEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="SUCCESS"/>
+			<xsd:enumeration value="FAILURE"/>	
+			<xsd:enumeration value="FREESPIN_NO_REMAINING"/>
+			<xsd:enumeration value="FREESPIN_TOKEN_EXPIRED"/>	
+			<xsd:enumeration value="FREESPIN_INVALID_CFG"/>	
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:element name="PlayResponse">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseResponse">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt4:AuthHeaderResponse"></xsd:element>
+						<xsd:element name="Body" type="xt6:PlayBodyResponse"></xsd:element>
+					</xsd:sequence>					
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:complexType name="PlayBodyResponse">
+		<xsd:complexContent>
+			<xsd:extension base="xt:BodyResponse">
+				<xsd:attribute name="id" type="xsd:string"></xsd:attribute>
+				<xsd:attribute name="msg" type="xsd:string" use="optional"></xsd:attribute>
+				<xsd:attribute name="status" type="xt6:PlayResponseStatusEnum"></xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="PlayResponseStatusEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="REJECTED"/>
+			<xsd:enumeration value="SETTLED"/>
+			<xsd:enumeration value="FAILURE"/>
+			<xsd:enumeration value="INSUFFICIENT_FUNDS"/>
+			<xsd:enumeration value="SESSION_EXPIRED"/>
+			<xsd:enumeration value="FREESPIN_NO_REMAINING"/>
+			<xsd:enumeration value="FREESPIN_TOKEN_EXPIRED"/>	
+			<xsd:enumeration value="FREESPIN_INVALID_CFG"/>	
+		</xsd:restriction>
+	</xsd:simpleType>	
+	
+	<xsd:element name="VoidResponse">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseResponse">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:HeaderResponse"></xsd:element>
+						<xsd:element name="Body" type="xt6:VoidBodyResponse"></xsd:element>
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>    
+	
+	<xsd:complexType name="VoidBodyResponse">
+		<xsd:complexContent>
+			<xsd:extension base="xt:BodyResponse">
+				<xsd:attribute name="id" type="xsd:string"></xsd:attribute>
+				<xsd:attribute name="msg" type="xsd:string" use="optional"></xsd:attribute>
+				<xsd:attribute name="status" type="xt6:VoidResponseStatusEnum"></xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="VoidResponseStatusEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="SETTLED"/>
+			<xsd:enumeration value="FAILURE"/>
+			<xsd:enumeration value="REJECTED"/>
+			<xsd:enumeration value="FREESPIN_NO_REMAINING"/>
+			<xsd:enumeration value="FREESPIN_TOKEN_EXPIRED"/>	
+			<xsd:enumeration value="FREESPIN_INVALID_CFG"/>	
+		</xsd:restriction>
+	</xsd:simpleType>	
+	
+	<xsd:element name="ReconResponse">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseResponse">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:HeaderResponse"></xsd:element>
+						<xsd:element name="Body" type="xt6:ReconBodyResponse"></xsd:element>
+					</xsd:sequence>					
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:complexType name="ReconBodyResponse">
+		<xsd:complexContent>
+			<xsd:extension base="xt:BodyResponse">
+				<xsd:attribute name="action" type="xt:OperatorActionEnum" />					
+				<xsd:attribute name="id" type="xsd:string"></xsd:attribute>
+				<xsd:attribute name="msg" type="xsd:string" use="optional"></xsd:attribute>
+				<xsd:attribute name="status" type="xt6:ReconResponseStatusEnum"></xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="ReconResponseStatusEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="FAILURE"/>
+			<xsd:enumeration value="SETTLED"/>
+			<xsd:enumeration value="NOT_FOUND"/>
+			<xsd:enumeration value="INSUFFICIENT_FUNDS"/>
+			<xsd:enumeration value="FREESPIN_NO_REMAINING"/>
+			<xsd:enumeration value="FREESPIN_TOKEN_EXPIRED"/>	
+			<xsd:enumeration value="FREESPIN_INVALID_CFG"/>	
+		</xsd:restriction>
+	</xsd:simpleType>	
+	
+	<xsd:element name="EndGameSessionResp">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseResponse">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:HeaderResponse"></xsd:element>
+						<xsd:element name="Body" type="xt6:EndGameSessionBodyResponse"></xsd:element>
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:complexType name="EndGameSessionBodyResponse">		
+		<xsd:attribute name="status" type="xt6:EndGameSessionResponseStatusEnum"></xsd:attribute>
+		<xsd:attribute name="msg" type="xsd:string" use="optional"></xsd:attribute>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="EndGameSessionResponseStatusEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="SUCCESS"/>
+			<xsd:enumeration value="FAILURE"/>		
+			<xsd:enumeration value="FREESPIN_NO_REMAINING"/>
+			<xsd:enumeration value="FREESPIN_TOKEN_EXPIRED"/>	
+			<xsd:enumeration value="FREESPIN_INVALID_CFG"/>				
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:element name="GetPlayerBalanceResponse">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="xt:BaseResponse">
+					<xsd:sequence>
+						<xsd:element name="Header" type="xt:AuthHeaderResponse"></xsd:element>				
+						<xsd:element name="Body" type="xt6:GetPlayerBalanceBodyResponse"></xsd:element>		
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:complexType name="GetPlayerBalanceBodyResponse">		
+		<xsd:attribute name="status" type="xt6:GetPlayerBalanceResponseStatusEnum"></xsd:attribute>	
+		<xsd:attribute name="msg" type="xsd:string" use="optional"></xsd:attribute>	
+	</xsd:complexType>
+	
+	<xsd:simpleType name="GetPlayerBalanceResponseStatusEnum">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="SUCCESS"/>
+			<xsd:enumeration value="FAILURE"/>		
+			<xsd:enumeration value="FREESPIN_NO_REMAINING"/>
+			<xsd:enumeration value="FREESPIN_TOKEN_EXPIRED"/>	
+			<xsd:enumeration value="FREESPIN_INVALID_CFG"/>							
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+</xsd:schema>

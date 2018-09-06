@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:rgs="http://www.wagerworks.com/schema/2009/03/23/rgs.xsd" 
+            attributeFormDefault="unqualified" 
+            elementFormDefault="qualified" 
+            targetNamespace="http://www.wagerworks.com/schema/2009/03/23/rgs.xsd">
+      
+      <!--  heartbeat messages -->
+      <xsd:element name="HeartbeatRequestV3">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="Timestamp" type="xsd:dateTime"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      
+      <xsd:element name="HeartbeatResponseV3">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="heartbeatinfo" type="xsd:dateTime"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      
+      <!-- losslimit messages -->
+      <xsd:element name="PlayerLossLimitRequestV3">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="UniqueId" type="xsd:string"/>
+            <xsd:element name="SessionId" type="xsd:string"/>
+            <xsd:element name="SoftwareId" type="xsd:string"/>
+            <xsd:element name="SecureToken" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      
+      <xsd:element name="PlayerLossLimitResponseV3">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" name="Status" nillable="true" type="rgs:Status"/>
+            <xsd:element minOccurs="1" name="LossLimit" nillable="false" type="xsd:decimal"/>
+            <xsd:element minOccurs="1" name="LossLimitExpiration" nillable="false" type="xsd:long"/>
+            </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      
+      <xsd:element name="PlayerLossLimitExceptionV3">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" name="Code" nillable="false" type="xsd:int"/>
+            <xsd:element minOccurs="1" name="Message" nillable="true" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      
+      <!--  playerBalance messages -->
+      <xsd:element name="PlayerBalanceRequestV3">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="UniqueId" type="xsd:string"/>
+            <xsd:element name="SecureToken" type="xsd:string"/>
+            <xsd:element name="SoftwareId" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      
+      <xsd:element name="PlayerBalanceResponseV3">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" name="Status" nillable="true" type="rgs:Status"/>
+            <xsd:element minOccurs="1" name="UniqueId" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="1" name="CurrencyCode" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="1" name="Balance" nillable="true" type="xsd:decimal"/>
+         </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      
+      <xsd:element name="PlayerBalanceExceptionV3">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" name="Code" nillable="false" type="xsd:int"/>
+            <xsd:element minOccurs="1" name="Message" nillable="true" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      
+      <!--  Supporting Data structures -->
+      <xsd:complexType name="Status">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" name="StatusCode" nillable="false" type="xsd:int"/>
+          <xsd:element minOccurs="1" name="Message" nillable="true" type="xsd:string"/>
+          <xsd:element minOccurs="1" name="StatusDesc" nillable="true" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
